@@ -3,7 +3,7 @@
 In a production system these records would come from a database. For this
 starter they are held in memory so the service runs with no external
 dependencies and the focus stays on the DevOps workflow around the code.
-
+ 
 Wiring the service up to a real datastore is a reasonable extension, but it is
 not required by the brief: keep changes to the application modest.
 """
