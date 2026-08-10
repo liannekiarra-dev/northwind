@@ -70,6 +70,11 @@ class DeliveryHandler(BaseHTTPRequestHandler):
     def log_message(self, *args) -> None:  # noqa: D401 - silence default logging
         """Suppress the default per-request logging to keep output clean."""
         return
+    
+    def create_server(port: int = 8000, host: str = "0.0.0.0") -> ThreadingHTTPServer:
+        """Build (but do not start) the delivery-tracking HTTP server."""
+        return ThreadingHTTPServer((host, port), DeliveryHandler)
+
 
 
 def main() -> None:
