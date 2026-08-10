@@ -65,3 +65,17 @@ def test_responses_declare_json_content_type(http_get):
     for path in ("/", "/health", "/deliveries", "/deliveries/NL-1001"):
         resp = http_get(path)
         assert resp.content_type == "application/json", path
+def test_deliveries_have_expected_shape(http_get):
+    """Every delivery record exposes the core fields clients rely on."""
+    payload = http_get("/deliveries").json()
+    for record in payload:
+        assert "id" in record
+        assert "destination" in record
+def test_health_declares_json_and_ok_body(http_get):
+    resp = http_get("/health")
+    assert resp.status == 200
+    assert resp.content_type == "application/json"
+    assert resp.json() == {"status": "ok"}
+def test_root_endpoint_advertises_all_routes(http_get):
+    endpoints = http_get("/").json()["endpoints"]
+    assert set(endpoints) >= {"/health", "/deliveries", "/deliveries/{id}"}
